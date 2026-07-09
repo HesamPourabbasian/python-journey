@@ -24,9 +24,9 @@ Every topic includes examples, exercises, notes, and small projects that demonst
 
 ### Python Fundamentals
 - [x] Variables & Data Types
-- [x] Input & Output
-- [ ] Operators
-- [ ] Strings
+- [ ] Input & Output
+- [x] Operators
+- [x] Strings
 - [ ] Conditional Statements
 - [ ] Loops
 - [ ] Functions
