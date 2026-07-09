@@ -27,7 +27,7 @@ Every topic includes examples, exercises, notes, and small projects that demonst
 - [ ] Input & Output
 - [x] Operators
 - [x] Strings
-- [ ] Conditional Statements
+- [x] Conditional Statements
 - [ ] Loops
 - [ ] Functions
 - [ ] Lists
