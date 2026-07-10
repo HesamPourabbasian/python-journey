@@ -3,4 +3,4 @@
 
 
 # vehicle = ["Car", "Bicycle", "Plane"]
-# # print (vehicle [0:2]) 
+# # print (vehicle [0:2]) l
