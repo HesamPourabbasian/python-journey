@@ -30,7 +30,7 @@ Every topic includes examples, exercises, notes, and small projects that demonst
 - [x] Conditional Statements
 - [ ] Loops
 - [ ] Functions
-- [ ] Lists
+- [x] Lists
 - [ ] Tuples
 - [ ] Sets
 - [ ] Dictionaries
