@@ -24,16 +24,16 @@ Every topic includes examples, exercises, notes, and small projects that demonst
 
 ### Python Fundamentals
 - [x] Variables & Data Types
-- [ ] Input & Output
+- [x] Input & Output
 - [x] Operators
 - [x] Strings
 - [x] Conditional Statements
 - [ ] Loops
 - [ ] Functions
 - [x] Lists
-- [ ] Tuples
-- [ ] Sets
-- [ ] Dictionaries
+- [x] Tuples
+- [x] Sets
+- [x] Dictionaries
 
 ### Intermediate Python
 - [ ] Modules & Packages
