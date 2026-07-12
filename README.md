@@ -1,4 +1,4 @@
-# ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) Python Journey
+# ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  Python Journey
 ### From Hello, World! to Real-World Applications 🚀
 
 Welcome to my Python learning repository!
@@ -95,22 +95,6 @@ Some planned projects include:
 - REST API
 
 ---
-
-## 📖 Learning Resources
-
-Some of the resources I'll be using:
-
-- Official Python Documentation
-- freeCodeCamp
-- Real Python
-- W3Schools
-- GeeksforGeeks
-- YouTube
-- LeetCode
-- HackerRank
-
----
-
 ## 📈 Progress
 
 This repository is updated regularly as I study Python.
