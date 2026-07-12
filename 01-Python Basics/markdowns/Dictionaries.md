@@ -18,7 +18,7 @@ The **word** is the **key**, and its **definition** is the **value**.
 
 In Python:
 
-```python
+```python.
 student = {
     "name": "Hesam",
     "age": 22,
