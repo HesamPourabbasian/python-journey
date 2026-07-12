@@ -1,4 +1,4 @@
-# 🐍 Python Journey
+# ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) Python Journey
 ### From Hello, World! to Real-World Applications 🚀
 
 Welcome to my Python learning repository!
