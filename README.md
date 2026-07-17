@@ -29,7 +29,7 @@ Every topic includes examples, exercises, notes, and small projects that demonst
 - [x] Strings
 - [x] Conditional Statements
 - [ ] Loops
-- [ ] Functions
+- [x] Functions
 - [x] Lists
 - [x] Tuples
 - [x] Sets
