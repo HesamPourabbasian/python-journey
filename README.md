@@ -38,7 +38,7 @@ Every topic includes examples, exercises, notes, and small projects that demonst
 ### Intermediate Python
 - [ ] Modules & Packages
 - [ ] File Handling
-- [ ] Exception Handling
+- [x] Exception Handling
 - [ ] Object-Oriented Programming
 - [ ] Iterators & Generators
 - [ ] Decorators
