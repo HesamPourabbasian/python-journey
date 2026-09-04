@@ -1,26 +1,14 @@
 import Link from "next/link";
-import { prisma } from "../../lib/prisma";
+import { getFullCurriculum } from "../../lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function CurriculumPage() {
-  const levels = await prisma.level.findMany({
-    orderBy: { order: "asc" },
-    include: {
-      modules: {
-        orderBy: { order: "asc" },
-        include: {
-          lessons: {
-            orderBy: { order: "asc" },
-          },
-        },
-      },
-    },
-  });
+  const levels = await getFullCurriculum();
 
   const totalLessons = levels.reduce(
-    (acc, lvl) =>
-      acc + lvl.modules.reduce((mAcc, m) => mAcc + m.lessons.length, 0),
+    (acc: number, lvl: any) =>
+      acc + lvl.modules.reduce((mAcc: number, m: any) => mAcc + m.lessons.length, 0),
     0
   );
 
@@ -78,9 +66,9 @@ export default async function CurriculumPage() {
       </header>
 
       <div className="mx-auto max-w-[1320px] px-6 pb-28 lg:px-10 space-y-20">
-        {levels.map((level) => {
+        {levels.map((level: any) => {
           const levelLessonCount = level.modules.reduce(
-            (acc, m) => acc + m.lessons.length,
+            (acc: number, m: any) => acc + m.lessons.length,
             0
           );
 
@@ -114,7 +102,7 @@ export default async function CurriculumPage() {
               </div>
 
               <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {level.modules.map((mod, modIdx) => (
+                {level.modules.map((mod: any, modIdx: number) => (
                   <div
                     key={mod.id}
                     className="flex flex-col justify-between rounded-sm border border-line/80 bg-white/70 p-6 transition hover:border-brass hover:shadow-md"
@@ -138,7 +126,7 @@ export default async function CurriculumPage() {
 
                     <div className="border-t border-line/50 pt-4 mt-2">
                       <ul className="space-y-2 text-xs">
-                        {mod.lessons.map((lesson) => (
+                        {mod.lessons.map((lesson: any) => (
                           <li key={lesson.id}>
                             <Link
                               href={`/lessons/${lesson.slug}`}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "../../../lib/prisma";
+import { getLessonBySlug } from "../../../lib/data";
 import MarkdownView from "../../components/MarkdownView";
 
 export const dynamic = "force-dynamic";
@@ -21,59 +21,29 @@ export default async function LessonPage({
 }) {
   const targetSlug = ALIASES[params.slug] || params.slug;
 
-  let lesson = await prisma.lesson.findUnique({
-    where: { slug: targetSlug },
-    include: {
-      level: true,
-      module: true,
-    },
-  });
+  const data = await getLessonBySlug(targetSlug);
 
-  if (!lesson) {
-    // Try searching by slug contains or fallback to first lesson
-    lesson = await prisma.lesson.findFirst({
-      where: {
-        slug: {
-          contains: targetSlug,
-        },
-      },
-      include: {
-        level: true,
-        module: true,
-      },
-    });
-
-    if (!lesson) {
-      lesson = await prisma.lesson.findFirst({
-        orderBy: { order: "asc" },
-        include: {
-          level: true,
-          module: true,
-        },
-      });
-    }
+  if (!data) {
+    // Fallback to first lesson
+    const fallback = await getLessonBySlug("what-is-python");
+    if (!fallback) notFound();
+    return renderLesson(fallback);
   }
 
-  if (!lesson) {
-    notFound();
-  }
+  return renderLesson(data);
+}
 
-  const [prevLesson, nextLesson, moduleLessons] = await Promise.all([
-    prisma.lesson.findFirst({
-      where: { order: lesson.order - 1 },
-      select: { slug: true, title: true, order: true },
-    }),
-    prisma.lesson.findFirst({
-      where: { order: lesson.order + 1 },
-      select: { slug: true, title: true, order: true },
-    }),
-    prisma.lesson.findMany({
-      where: { moduleSlug: lesson.moduleSlug },
-      orderBy: { order: "asc" },
-      select: { id: true, slug: true, title: true, order: true },
-    }),
-  ]);
-
+function renderLesson({
+  lesson,
+  prevLesson,
+  nextLesson,
+  moduleLessons,
+}: {
+  lesson: any;
+  prevLesson: any;
+  nextLesson: any;
+  moduleLessons: any[];
+}) {
   return (
     <main className="min-h-screen paper-grain">
       <nav className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-6 lg:px-10 border-b border-line">
@@ -149,7 +119,7 @@ export default async function LessonPage({
               <div className="rounded-sm border border-line bg-[#f7f3e8] p-6">
                 <p className="eyebrow mb-4 text-brass">In this lesson</p>
                 <ul className="space-y-3">
-                  {lesson.topics.map((topic, i) => (
+                  {lesson.topics.map((topic: string, i: number) => (
                     <li key={i} className="flex gap-3 text-sm leading-6 text-ink/80">
                       <span className="text-brass font-bold">✦</span>
                       <span>{topic}</span>
@@ -187,7 +157,9 @@ export default async function LessonPage({
                   href={`/lessons/${prevLesson.slug}`}
                   className="group rounded-sm border border-line p-5 transition hover:border-brass hover:bg-white/40"
                 >
-                  <span className="eyebrow text-ink/40 text-[0.62rem]">← Previous Lesson</span>
+                  <span className="eyebrow text-ink/40 text-[0.62rem]">
+                    ← Previous Lesson
+                  </span>
                   <p className="serif text-xl font-semibold text-ink group-hover:text-forest mt-1 truncate">
                     {prevLesson.title}
                   </p>
@@ -203,7 +175,9 @@ export default async function LessonPage({
                   href={`/lessons/${nextLesson.slug}`}
                   className="group rounded-sm border border-line p-5 text-right transition hover:border-brass hover:bg-white/40"
                 >
-                  <span className="eyebrow text-forest text-[0.62rem]">Next Lesson →</span>
+                  <span className="eyebrow text-forest text-[0.62rem]">
+                    Next Lesson →
+                  </span>
                   <p className="serif text-xl font-semibold text-ink group-hover:text-forest mt-1 truncate">
                     {nextLesson.title}
                   </p>
@@ -235,7 +209,9 @@ export default async function LessonPage({
           {/* Module Navigation Sidebar */}
           <aside className="hidden lg:block">
             <div className="sticky top-8 rounded-sm border border-line bg-[#faf7ef] p-5">
-              <p className="eyebrow text-brass mb-2 text-[0.65rem]">Module Outline</p>
+              <p className="eyebrow text-brass mb-2 text-[0.65rem]">
+                Module Outline
+              </p>
               <h4 className="serif text-lg font-semibold text-ink mb-4 pb-2 border-b border-line">
                 {lesson.module.title}
               </h4>

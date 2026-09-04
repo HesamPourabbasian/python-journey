@@ -1,65 +1,13 @@
 import Link from "next/link";
-import { prisma } from "../lib/prisma";
+import { getCurriculumData } from "../lib/data";
 import Navbar from "./components/Navbar";
-import ReadingRoom, { LessonSummary } from "./components/ReadingRoom";
+import ReadingRoom from "./components/ReadingRoom";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [levels, dbLessons, totalLessons, totalProjects, totalModules] =
-    await Promise.all([
-      prisma.level.findMany({
-        orderBy: { order: "asc" },
-        include: {
-          _count: {
-            select: { lessons: true, modules: true },
-          },
-          lessons: {
-            take: 1,
-            orderBy: { order: "asc" },
-            select: { slug: true },
-          },
-        },
-      }),
-      prisma.lesson.findMany({
-        orderBy: { order: "asc" },
-        select: {
-          id: true,
-          slug: true,
-          title: true,
-          order: true,
-          readTime: true,
-          isProject: true,
-          topics: true,
-          levelSlug: true,
-          level: {
-            select: { title: true, roman: true },
-          },
-          moduleSlug: true,
-          module: {
-            select: { title: true },
-          },
-        },
-      }),
-      prisma.lesson.count(),
-      prisma.lesson.count({ where: { isProject: true } }),
-      prisma.module.count(),
-    ]);
-
-  const lessons: LessonSummary[] = dbLessons.map((l) => ({
-    id: l.id,
-    slug: l.slug,
-    title: l.title,
-    order: l.order,
-    readTime: l.readTime,
-    isProject: l.isProject,
-    topics: l.topics,
-    levelSlug: l.levelSlug,
-    levelTitle: l.level.title,
-    levelRoman: l.level.roman,
-    moduleSlug: l.moduleSlug,
-    moduleTitle: l.module.title,
-  }));
+  const { levels, lessons, stats } = await getCurriculumData();
+  const { totalLessons, totalProjects, totalModules } = stats;
 
   return (
     <main className="min-h-screen paper-grain">
@@ -138,7 +86,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Dynamic Stats Banner from PostgreSQL */}
+      {/* Dynamic Stats Banner */}
       <section className="border-y border-line bg-[#f0eadc]/70">
         <div className="mx-auto grid max-w-[1320px] grid-cols-2 divide-x divide-line px-6 lg:grid-cols-4 lg:px-10">
           <Stat value={`${totalLessons}+`} label="carefully written lessons" />
@@ -167,7 +115,6 @@ export default async function Home() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           {levels.map((level, idx) => {
-            const firstLessonSlug = level.lessons[0]?.slug || "what-is-python";
             return (
               <div
                 key={level.id}
@@ -261,7 +208,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Interactive Reading Room with All Lessons from PostgreSQL */}
+      {/* Interactive Reading Room with All Lessons */}
       <ReadingRoom lessons={lessons} />
 
       {/* Footer */}
