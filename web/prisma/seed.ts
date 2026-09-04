@@ -4,7 +4,9 @@ import * as path from "path";
 
 const prisma = new PrismaClient();
 
-const ROOT_DIR = path.resolve(__dirname, "../..");
+const ROOT_DIR = fs.existsSync(path.resolve(__dirname, "../beginner"))
+  ? path.resolve(__dirname, "..")
+  : path.resolve(__dirname, "../..");
 
 interface LevelConfig {
   slug: string;
