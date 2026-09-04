@@ -1,0 +1,12 @@
+{
+  "name": "python-journey",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "start": "npm --prefix web start",
+    "lint": "npm --prefix web run lint",
+    "seed": "npm --prefix web run seed"
+  }
+}
